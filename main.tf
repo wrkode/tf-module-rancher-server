@@ -1,14 +1,11 @@
 # Install cert-manager helm chart
 resource "helm_release" "cert_manager" {
-  depends_on = [
-    kubernetes_job.create_cert_manager_ns,
-  ]
-
-  repository = data.helm_repository.cert_manager.metadata[0].name
-  name       = "cert-manager"
+  repository = "https://charts.jetstack.io"
+  name       = "jetstack"
   chart      = "cert-manager"
   version    = var.cert_manager.version
   namespace  = var.cert_manager.ns
+  create_namespace = true
 
   dynamic set {
     for_each = var.cert_manager.chart_set
@@ -21,16 +18,12 @@ resource "helm_release" "cert_manager" {
 
 # Install Rancher helm chart
 resource "helm_release" "rancher_server" {
-  depends_on = [
-    kubernetes_job.create_cattle_system_ns,
-    helm_release.cert_manager,
-  ]
-
-  repository = data.helm_repository.rancher.metadata[0].name
-  name       = "rancher"
+  repository = "https://releases.rancher.com/server-charts/${var.rancher_server.branch}"
+  name       = "rancher-${var.rancher_server.branch}"
   chart      = "rancher"
   version    = var.rancher_server.version
   namespace  = var.rancher_server.ns
+  create_namespace = true
 
   set {
     name  = "hostname"
@@ -49,6 +42,10 @@ resource "helm_release" "rancher_server" {
       value = set.value.value
     }
   }
+
+  depends_on = [
+    helm_release.cert_manager
+  ]
 }
 
 

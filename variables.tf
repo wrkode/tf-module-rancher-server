@@ -1,14 +1,7 @@
-variable "kubectl_image" {
-  type        = string
-  description = "Kubectl docker image"
-  default     = "bitnami/kubectl:1.17.4"
-}
-
 variable "cert_manager" {
   type = object({
     ns = string
     version = string
-    crd_url = string
     chart_set = list(object({
       name = string
       value = string
@@ -16,9 +9,13 @@ variable "cert_manager" {
   })
   default = {
     ns = "cert-manager"
-    version = "v0.14.2"
-    crd_url = "https://raw.githubusercontent.com/jetstack/cert-manager/release-0.14/deploy/manifests/00-crds.yaml"
-    chart_set = []
+    version = "v1.1.0"
+    chart_set = [
+      {
+        name = "installCRDs"
+        value = "true"
+      }
+    ]
   }
   description = "Cert-manager helm chart properties. Chart sets can be added using chart_set param"
 }
@@ -35,7 +32,7 @@ variable "rancher_server" {
   })
   default = {
     ns = "cattle-system"
-    version = "v2.4.2"
+    version = "v2.5.7"
     branch = "latest"
     chart_set = []
   }
