@@ -34,12 +34,7 @@ variable "rancher_server" {
     ns = "cattle-system"
     version = "v2.6.3"
     branch = "latest"
-    chart_set = [
-      {
-        name = "bootsrapPassword"
-        value = "Password!123@"
-      }
-    ]
+    chart_set = []
   }
   description = "Rancher server helm chart properties. Chart sets can be added using chart_set param"
 }
