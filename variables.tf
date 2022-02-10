@@ -9,7 +9,7 @@ variable "cert_manager" {
   })
   default = {
     ns = "cert-manager"
-    version = "v1.1.0"
+    version = "v1.6.1"
     chart_set = [
       {
         name = "installCRDs"
@@ -32,9 +32,14 @@ variable "rancher_server" {
   })
   default = {
     ns = "cattle-system"
-    version = "v2.5.7"
+    version = "v2.6.3"
     branch = "latest"
-    chart_set = []
+    chart_set = [
+      {
+        name = "bootsrapPassoword"
+        value = "Password!123@"
+      }
+    ]
   }
   description = "Rancher server helm chart properties. Chart sets can be added using chart_set param"
 }
