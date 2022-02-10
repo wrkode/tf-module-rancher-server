@@ -36,7 +36,7 @@ variable "rancher_server" {
     branch = "latest"
     chart_set = [
       {
-        name = "bootsrapPassoword"
+        name = "bootsrapPassword"
         value = "Password!123@"
       }
     ]
