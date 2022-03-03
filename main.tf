@@ -31,6 +31,11 @@ resource "helm_release" "rancher_server" {
   }
 
   set {
+    name = "ingress.tls.source"
+    value = "secret"
+  }
+
+  set {
     name  = "replicas"
     value = var.rancher_replicas
   }
